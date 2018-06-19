@@ -24,7 +24,7 @@ def compute_days_between_dates(original_date, target_date):
 
 def print_birthday_information(days):
     if days < 0:
-        print(" you had your birthday {} days ago this year.".format(days))
+        print(" you had your birthday {} days ago this year.".format(-days))
     elif days > 0:
         print("Your birthday is in {} days!".format(days))
     else:
