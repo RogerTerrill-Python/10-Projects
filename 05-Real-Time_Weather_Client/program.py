@@ -1,7 +1,6 @@
 import requests
 import json
 
-
 def main():
     print_the_header()
 
@@ -9,13 +8,9 @@ def main():
 
     json_data = get_json_from_web(code)
 
-    cond = json_data['weather'][0]['main']
-    temp = json_data['main']['temp']
-    city = json_data['name']
+    string_data = json_to_string(json_data)
 
-    report = WeatherData().data(cond, temp, city)
-
-    print(f"The temp in {report.city} is {report.temp} degrees and {report.cond}")
+    print(f"The temp in {string_data['city']} is {string_data['temp']} degrees and {string_data['cond']}")
 
 
 def print_the_header():
@@ -33,22 +28,12 @@ def get_json_from_web(zipcode):
     return converted_to_dict_data
 
 
-class WeatherData:
-    def data(self, cond, temp, city):
-        self.cond = cond
-        self.temp = temp
-        self.city = city
-        return self
+def json_to_string(json_data):
+    json_object = {"cond": json_data['weather'][0]['main'],\
+                   "temp": json_data['main']['temp'],\
+                   "city": json_data['name']}
 
-
-
-
-def get_weather_from_json(json_tuple):
-    condition = json_tuple['weather']['main']
-    temp = json_tuple['main']['temp']
-    city = json_tuple['sys']['name']
-
-    return temp
+    return json_object
 
 
 if __name__ == "__main__":
