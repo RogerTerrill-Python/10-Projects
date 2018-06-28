@@ -1,4 +1,5 @@
 import os
+import platform
 import subprocess
 
 import cat_service
@@ -40,7 +41,16 @@ def download_cats(folder):
 
 
 def display_cats(folder):
-    subprocess.call(['explorer', folder])
+    # open folder
+    print('Displaying cats in OS window.')
+    if platform.system() == 'Darwin':
+        subprocess.call(['open', folder])
+    elif platform.system() == 'Windows':
+        subprocess.call(['explorer', folder])
+    elif platform.system() == 'Linux':
+        subprocess.call(['xdg-open', folder])
+    else:
+        print("We don't support your os: " + platform.system())
 
 
 if __name__ == '__main__':
