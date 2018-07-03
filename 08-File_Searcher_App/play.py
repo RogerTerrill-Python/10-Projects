@@ -9,18 +9,16 @@ def factorial(n):
 print(f"5!={factorial(5)}, 3!={factorial(3)}, 11!={factorial(11):,}")
 
 
-def fibonacci(limit):
-    nums = []
-
+def fibonacci_co():
     current = 0
     next = 1
 
-    while current < limit:
+    while True:
         current, next = next, next + current
-        nums.append(current)
-
-    return nums
+        yield current
 
 
-for n in fibonacci(100):
+for n in fibonacci_co():
+    if n > 1000:
+        break
     print(n, end=', ')
