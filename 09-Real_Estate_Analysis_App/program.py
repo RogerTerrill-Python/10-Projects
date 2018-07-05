@@ -1,3 +1,4 @@
+import csv
 import os
 
 
@@ -22,7 +23,30 @@ def get_data_file():
 
 
 def load_file(filename):
-    return []
+    with open(filename, 'r', encoding='utf-8') as fin:
+
+        reader = csv.DictReader(fin)
+        for row in reader:
+            print(type(row), row)
+
+        # header = fin.readline().strip()
+        # reader = csv.reader(fin, delimiter=',')
+        # for row in reader:
+        #     print(row)
+
+
+
+# def load_file_basic(filename):
+#     with open(filename, 'r', encoding='utf-8') as fin:
+#         header = fin.readline().strip()
+#         print(f'found header: {header}')
+#
+#         lines=[]
+#         for line in fin:
+#             line_data = line.strip().split(',')
+#             lines.append(line_data)
+#
+#         print(lines[:5])
 
 
 def query_data(data):
