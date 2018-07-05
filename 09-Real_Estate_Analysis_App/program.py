@@ -7,7 +7,6 @@ def main():
     print_header()
     filename = get_data_file()
     data = load_file(filename)
-    print(data)
     query_data(data)
 
 
@@ -34,28 +33,20 @@ def load_file(filename):
 
         return purchases
 
-        # header = fin.readline().strip()
-        # reader = csv.reader(fin, delimiter=',')
-        # for row in reader:
-        #     print(row)
 
-
-
-# def load_file_basic(filename):
-#     with open(filename, 'r', encoding='utf-8') as fin:
-#         header = fin.readline().strip()
-#         print(f'found header: {header}')
-#
-#         lines=[]
-#         for line in fin:
-#             line_data = line.strip().split(',')
-#             lines.append(line_data)
-#
-#         print(lines[:5])
+# def get_price(p):
+#     return p.price
 
 
 def query_data(data):
-    pass
+    # data.sort(key=get_price)
+    data.sort(key=lambda p: p.price)
+
+    high_purchase = data[-1]
+    print(f'The most expensive house is ${high_purchase.price:,} with {high_purchase.beds} beds and {high_purchase.baths} baths')
+
+    low_purchase = data[0]
+    print(f'The least expensive house is ${low_purchase.price:,} with {low_purchase.beds} beds and {low_purchase.baths} baths')
 
 
 if __name__ == '__main__':
