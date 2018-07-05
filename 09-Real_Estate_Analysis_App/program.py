@@ -39,34 +39,62 @@ def load_file(filename):
 #     return p.price
 
 
-def query_data(data):
+def query_data(data):  # list[Purchase]):
+
     # data.sort(key=get_price)
     data.sort(key=lambda p: p.price)
 
     high_purchase = data[-1]
-    print(f'The most expensive house is ${high_purchase.price:,} with {high_purchase.beds} beds and {high_purchase.baths} baths')
+    print("The most expensive house is ${:,} with {} beds and {} baths".format(
+        high_purchase.price, high_purchase.beds, high_purchase.baths))
 
     low_purchase = data[0]
-    print(f'The least expensive house is ${low_purchase.price:,} with {low_purchase.beds} beds and {low_purchase.baths} baths')
+    print("The least expensive house is ${:,} with {} beds and {} baths".format(
+        low_purchase.price, low_purchase.beds, low_purchase.baths))
 
-    prices = [
-        p.price  # projections or items
-        for p in data  # set to process
-    ]
+    # average price house?
+    # prices = list()  # []
+    # for pur in data:
+    #     prices.append(pur.price)
 
-    avg_price = statistics.mean(prices)
-    print(f'The average home price is ${int(avg_price):,}')
+    prices = (
+        p.price  # projection or items
+        for p in data  # the set to process
+    )
 
-    two_bed_homes = [
-        p  # projections or items
-        for p in data  # set to process
-        if p.beds == 2  # test/condition
-    ]
+    ave_price = statistics.mean(prices)
+    print("The average home price is ${:,}".format(int(ave_price)))
 
-    avg_price = statistics.mean([p.price for p in two_bed_homes])
-    avg_baths = statistics.mean([p.baths for p in two_bed_homes])
-    avg_sqft = statistics.mean([p.sq__ft for p in two_bed_homes])
-    print(f'Average 2-bedroom home is ${int(avg_price):,}, baths={round(avg_baths,1)}, sqft={round(avg_sqft,1):,}')
+    # average price of 2 bedroom houses
+    # prices = []
+    # baths = []
+    # for pur in data:
+    #     if pur.beds == 2:
+    #         prices.append(pur.price)
+
+    two_bed_homes = (
+        p  # projection or items
+        for p in data  # the set to process
+        if announce(p, '2-bedrooms, found {}'.format(p.beds)) and p.beds == 2  # test / condition
+    )
+
+    homes = []
+    for h in two_bed_homes:
+        if len(homes) > 5:
+            break
+        homes.append(h)
+
+    ave_price = statistics.mean((announce(p.price, 'price') for p in homes))
+    ave_baths = statistics.mean((p.baths for p in homes))
+    ave_sqft = statistics.mean((p.sq__ft for p in homes))
+    print("Average 2-bedroom home is ${:,}, baths={}, sq ft={:,}"
+          .format(int(ave_price), round(ave_baths, 1), round(ave_sqft, 1)))
+
+
+def announce(item, msg):
+    print("Pulling item {} for {}".format(item, msg))
+    return item
+
 
 if __name__ == '__main__':
     main()
